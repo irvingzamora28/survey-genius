@@ -4,14 +4,14 @@ type LoginProps = {
     onLoginSuccess: () => void;
 };
 
-const Login = ({ onLoginSuccess }: LoginProps) => {
+const Login: React.FC<{}> = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // Your login logic here...
-        onLoginSuccess();
+        // onLoginSuccess();
     };
 
     return (
