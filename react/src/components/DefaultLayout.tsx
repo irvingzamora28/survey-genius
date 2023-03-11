@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
+import { Fragment, MouseEvent } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import {FaBars, FaBell, FaTimes} from 'react-icons/fa'
+import {FaBars, FaTimes} from 'react-icons/fa'
 import { NavLink, Outlet } from 'react-router-dom'
 
 const user = {
@@ -13,15 +13,18 @@ const navigation = [
   { name: 'Dashboard', to: '/', current: true },
   { name: 'Surveys', to: '/surveys', current: false },
 ]
-const userNavigation = [
-  { name: 'Sign out', href: '#' },
-]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const DefaultLayout: React.FC<{}> = () => {
+
+    const logout = (event: MouseEvent) => {
+        event.preventDefault()
+        console.log("logout");
+
+    };
   return (
     <>
       {/*
@@ -92,21 +95,15 @@ const DefaultLayout: React.FC<{}> = () => {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
+                              <Menu.Item>
                                   <a
-                                    href={item.href}
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
-                                    )}
+                                    href={"#"}
+                                    onClick={(event) => logout(event)}
+                                    className={'block px-4 py-2 text-sm text-gray-700'}
                                   >
-                                    {item.name}
+                                    Sign Out
                                   </a>
-                                )}
                               </Menu.Item>
-                            ))}
                           </Menu.Items>
                         </Transition>
                       </Menu>
@@ -158,16 +155,14 @@ const DefaultLayout: React.FC<{}> = () => {
                     </button>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
-                    {userNavigation.map((item) => (
                       <Disclosure.Button
-                        key={item.name}
                         as="a"
-                        href={item.href}
+                        href={"#"}
+                        onClick={(event) => logout(event)}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                        {item.name}
+                        Sign Out
                       </Disclosure.Button>
-                    ))}
                   </div>
                 </div>
               </Disclosure.Panel>
