@@ -1,14 +1,24 @@
 import React, { createContext, useContext, useState } from "react";
 
+interface UserInterface {
+    name: string;
+    email: string;
+    imageUrl: string;
+}
+
 interface StateContextData {
-    currentUser: object | null;
+    currentUser: UserInterface;
     userToken: string | null;
-    setCurrentUser: React.Dispatch<React.SetStateAction<object | null>>;
+    setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
     setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const StateContext = createContext<StateContextData>({
-    currentUser: null,
+    currentUser: {
+        name: "",
+        email: "",
+        imageUrl: "",
+    },
     userToken: null,
     setCurrentUser: () => {},
     setUserToken: () => {},
@@ -18,7 +28,12 @@ interface Props {
     children?: React.ReactNode[] | React.ReactNode;
 }
 export const ContextProvider: React.FC<Props> = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState<object | null>(null);
+    const user = {
+        name: "Tom Cook",
+        email: "tom@example.com",
+        imageUrl: "https://picsum.photos/200",
+    };
+    const [currentUser, setCurrentUser] = useState<UserInterface>(user);
     const [userToken, setUserToken] = useState<string | null>(null);
 
     return (
@@ -30,4 +45,10 @@ export const ContextProvider: React.FC<Props> = ({ children }) => {
     );
 };
 
-export const userStateContext: StateContextData = useContext(StateContext);
+export const userStateContext = () => {
+    const context = useContext(StateContext);
+    if (context === undefined) {
+        throw new Error("userStateContext must be used within a UserProvider");
+    }
+    return context;
+};
