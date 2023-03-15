@@ -1,7 +1,7 @@
 import { Fragment, MouseEvent } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {FaBars, FaTimes} from 'react-icons/fa'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { userStateContext } from '../contexts/ContextProvider'
 
 
@@ -17,7 +17,11 @@ function classNames(...classes: string[]) {
 
 const DefaultLayout: React.FC<{}> = () => {
 
-    const { currentUser, setCurrentUser } = userStateContext();
+    const { currentUser, userToken } = userStateContext();
+
+    if (!userToken) {
+        return <Navigate to={"login"} />
+    }
 
     const logout = (event: MouseEvent) => {
         event.preventDefault()

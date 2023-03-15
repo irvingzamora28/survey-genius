@@ -1,7 +1,13 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { userStateContext } from "../contexts/ContextProvider";
 
 const GuestLayout: React.FC<{}> = () => {
+    const { currentUser, userToken } = userStateContext();
+
+    if (userToken) {
+        return <Navigate to={"/"} />
+    }
     return (
         <div>
             <section className="bg-[#F4F7FF] py-20 lg:py-[120px]">
